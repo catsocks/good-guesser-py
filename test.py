@@ -1,8 +1,8 @@
 import random
 import unittest
 
-import example
-from square_grid import square_grid
+from good_guesser import example
+from good_guesser.square_grid import square_grid
 
 
 class BaseTest(unittest.TestCase):
