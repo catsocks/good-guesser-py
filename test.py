@@ -1,14 +1,11 @@
-import random
 import unittest
 
 from good_guesser import example
-from good_guesser.square_grid import square_grid
 
 
-class BaseTest(unittest.TestCase):
+class TestExample(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.sample_bmp_seed = 1651582549
         sample_bmp = [
             "               *                                  ",
             "              ***                                 ",
@@ -43,17 +40,8 @@ class BaseTest(unittest.TestCase):
         ]
         cls.sample_bmp = [list(row) for row in sample_bmp]
 
-
-class TestExample(BaseTest):
     def test_count_pixels(self):
         self.assertEqual(example.count_pixels(self.sample_bmp), 768)
 
     def test_concave_pixels(self):
         self.assertEqual(example.concave_pixels(self.sample_bmp), 2)
-
-
-class TestSquareGrid(BaseTest):
-    def test_square_grid(self):
-        self.maxDiff = None
-        random.seed(self.sample_bmp_seed)
-        self.assertEqual(square_grid(), self.sample_bmp)
