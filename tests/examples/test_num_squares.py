@@ -1,6 +1,6 @@
 import unittest
 
-from good_guesser import example
+from examples import num_squares
 
 
 class TestExample(unittest.TestCase):
@@ -41,7 +41,7 @@ class TestExample(unittest.TestCase):
         cls.sample_bmp = [list(row) for row in sample_bmp]
 
     def test_count_pixels(self):
-        self.assertEqual(example.count_pixels(self.sample_bmp), 768)
+        self.assertEqual(num_squares.count_pixels(self.sample_bmp), 768)
 
     def test_concave_pixels(self):
-        self.assertEqual(example.concave_pixels(self.sample_bmp), 2)
+        self.assertEqual(num_squares.concave_pixels(self.sample_bmp), 2)
