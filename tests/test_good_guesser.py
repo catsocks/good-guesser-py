@@ -18,7 +18,7 @@ import good_guesser
     ),
 )
 def test_multiple_regression(test_input, expected):
-    assert np.allclose(good_guesser.multiple_regression(*test_input), expected)
+    np.testing.assert_allclose(good_guesser.multiple_regression(*test_input), expected)
 
 
 @pytest.mark.parametrize(
@@ -29,11 +29,11 @@ def test_multiple_regression(test_input, expected):
     ),
 )
 def test_add_bias(test_input, expected):
-    assert np.array_equal(good_guesser.add_bias(test_input), expected)
+    np.testing.assert_array_equal(good_guesser.add_bias(test_input), expected)
 
 
 def test_normal_equation():
-    assert np.allclose(
+    np.testing.assert_allclose(
         good_guesser.normal_equation(np.array([[1, 1], [1, 2], [1, 3]]), [3, 2, 4]),
         [2, 0.5],
     )
