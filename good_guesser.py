@@ -19,13 +19,16 @@ def add_bias(x):
 
 def normal_equation(x, y):
     """Return the least-squares solution to a linear matrix equation."""
-    xtx = np.matmul(x.transpose(), x)
+    xt = x.transpose()
+    xtx = np.matmul(xt, x)
     try:
         xtxi = np.linalg.inv(xtx)
-    except np.linalg.LinAlgError:
-        return None
-    xty = np.matmul(x.transpose(), y)
-    return np.matmul(xtxi, xty)
+    except np.linalg.LinAlgError as exc:
+        if str(exc) == "Singular matrix":
+            return None
+        raise
+    xty = np.matmul(xt, y)
+    return np.matmul(xty, xtxi)
 
 
 def estimate(regression, xs):
