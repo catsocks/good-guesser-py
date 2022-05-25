@@ -9,7 +9,7 @@ def multiple_regression(xs_coll, y_coll):
     regression = normal_equation(add_bias(np.array(xs_coll)), y_coll)
     if regression is not None:
         return regression
-    return [0]
+    return np.array([0])
 
 
 def add_bias(x):
