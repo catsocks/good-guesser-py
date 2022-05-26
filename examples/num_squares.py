@@ -25,7 +25,9 @@ def concave_pixels(bmp):
     return count
 
 
-def square_grid():
+# NOTE(catsocks): bmp is returned with concatenated rows for the sake of more readable
+# examples in .gg files.
+def square_grid(square_count=randint(1, 10)):
     """Return a square grid with random rotated squares plotted on it."""
     w, h, res = 50, 30, 20
     bmp = [[" " for _ in range(w)] for _ in range(h)]
@@ -41,7 +43,7 @@ def square_grid():
         for xx, yy in product(axes_range, axes_range):
             row, col = int(y + (dy * xx) + (idy * yy)), int(x + (dx * xx) + (idx * yy))
             bmp[row][col] = "*"
-    return bmp
+    return tuple("".join(row) for row in bmp)
 
 
 # def square_grid_visualizer(bmp, _):
