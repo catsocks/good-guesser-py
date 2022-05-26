@@ -8,6 +8,8 @@ from good_guesser import good_guesser
 def num_squares(bmp):
     for row in bmp:
         print("".join(row))
+    # Uncomment to enable verbose output.
+    # good_guesser.logger.addHandler(logging.StreamHandler())
     return good_guesser("num_squares", bmp, count_pixels, concave_pixels)
 
 

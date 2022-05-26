@@ -3,3 +3,16 @@ dist/
 
 # My personal notes
 NOTES.md
+
+# pytest
+testdir
+
+# pytest-profiling
+prof
+
+# Coverage.py
+.coverage
+htmlcov
+
+# GoodGuesser
+*.gg

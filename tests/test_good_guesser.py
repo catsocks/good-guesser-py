@@ -43,3 +43,88 @@ def test_estimate():
     assert good_guesser.estimate([1.257, 0.004, 0.226], [278, 7]) == pytest.approx(
         3.95, 0.001
     )
+
+
+@pytest.fixture
+def sample_examples():
+    return '"Unlabeled"\n?1\n"Labeled"\n0\n', [
+        good_guesser.Example("Unlabeled", 1, False),
+        good_guesser.Example("Labeled", 0, True),
+    ]
+
+
+def test_load_examples(tmp_path, sample_examples):
+    path = tmp_path / "test.gg"
+    examples_text, examples_list = sample_examples
+    path.write_text(examples_text)
+    assert good_guesser.load_examples(path) == examples_list
+
+
+def test_dump_examples(tmp_path, sample_examples):
+    path = tmp_path / "test.gg"
+    examples_text, examples_list = sample_examples
+    with path.open("w") as f:
+        good_guesser.dump_examples(f, examples_list, False)
+    assert path.read_text() == examples_text
+
+
+def test_dump_examples_indentation(tmp_path):
+    path = tmp_path / "test.gg"
+    example = good_guesser.Example([["H", "e", "l", "l", "o"]], 0, False)
+
+    with path.open("w") as f:
+        good_guesser.dump_examples(f, [example], False)
+    assert path.read_text() == '[["H" "e" "l" "l" "o"]]\n?0\n'
+
+    with path.open("w") as f:
+        good_guesser.dump_examples(f, [example], True)
+    assert (
+        path.read_text()
+        == '[\n  [\n    "H"\n    "e"\n    "l"\n    "l"\n    "o"\n  ]\n]\n?0\n'
+    )
+
+
+def test_example_visualizer(tmp_path):
+    path = tmp_path / "test.gg"
+    example = good_guesser.Example([["H", "e", "l", "l", "o"]], 0, False)
+    example.visualization = ["Hello"]
+    with open(path, "w") as f:
+        example.dump(f, False)
+    assert path.read_text() == '[["H" "e" "l" "l" "o"]]\n;; Hello\n?0\n'
+
+
+def test_run_regression():
+    input_funs = (lambda text: text.count("a"),)
+    examples = [
+        good_guesser.Example("aa", 2, True),
+        good_guesser.Example("aaa", 3, True),
+    ]
+    np.testing.assert_allclose(
+        good_guesser.run_regression(input_funs, examples), [0, 1]
+    )
+
+
+def test_apply_inputs_fails_with_invalid_input_fun():
+    input_funs = (lambda _: (1, 2),)
+    with pytest.raises(good_guesser.InvalidInputFuntionError):
+        good_guesser.apply_inputs(input_funs, None)
+
+
+def test_good_guesser_saves_examples(monkeypatch, tmp_path):
+    monkeypatch.chdir(tmp_path)
+    good_guesser.good_guesser("foo", "Hello", lambda txt: txt.count("l"))
+    assert (tmp_path / "foo.gg").read_text() == '"Hello"\n?0\n'
+
+
+def test_good_guesser_preview(monkeypatch, tmp_path):
+    monkeypatch.chdir(tmp_path)
+    good_guesser.good_guesser("foo", "Hello", lambda txt: txt.count("l"), preview=True)
+    assert not (tmp_path / "foo.gg").exists()
+
+
+def test_good_guesser_actual_value(monkeypatch, tmp_path):
+    monkeypatch.chdir(tmp_path)
+    good_guesser.good_guesser(
+        "foo", "Hello", lambda txt: txt.count("l"), actual_value=2
+    )
+    assert (tmp_path / "foo.gg").read_text() == '"Hello"\n2\n'
