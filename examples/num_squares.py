@@ -43,3 +43,6 @@ def square_grid():
             bmp[row][col] = "*"
     return bmp
 
+
+# def square_grid_visualizer(bmp, _):
+#     return ["".join(row) for row in bmp]
