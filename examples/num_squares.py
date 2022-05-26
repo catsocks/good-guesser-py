@@ -29,8 +29,8 @@ def square_grid():
     """Return a square grid with random rotated squares plotted on it."""
     w, h, res = 50, 30, 20
     bmp = [[" " for _ in range(w)] for _ in range(h)]
-    for _ in range(randint(0, 10) + 1):
-        size = randint(0, 5) + 2
+    for _ in range(square_count):
+        size = randint(2, 6)
         x = (1.5 * size) + int(random() * (w - (3 * size)))
         y = (1.5 * size) + int(random() * (h - (3 * size)))
         rot = pi * 2 * random()
