@@ -76,16 +76,13 @@ def test_good_guesser(monkeypatch, tmp_path):
         )
         results.append((square_count, max(1, min(10, round(guess)))))
 
-    num_correct_guesses = len([guess for actual, guess in results if actual == guess])
-    num_correct_guesses_within_1 = len(
+    num_correct = len([guess for actual, guess in results if actual == guess])
+    num_incorrect_by_1 = len(
         [guess for actual, guess in results if abs(actual - guess) <= 1]
     )
 
-    assert num_correct_guesses > 20
-    assert num_correct_guesses_within_1 > 50
+    assert num_correct > 20
+    assert num_incorrect_by_1 > 50
 
-    print(f"Number of correct guesses: {num_correct_guesses}/{num_examples}")
-    print(
-        "Number of correct guesses with a margin of error of 1: "
-        + f"{num_correct_guesses_within_1}/{num_examples}"
-    )
+    print(f"Number of correct guesses: {num_correct}/{num_examples}")
+    print(f"Number of guesses incorrect by 1: {num_incorrect_by_1}/{num_examples}")
