@@ -10,7 +10,7 @@ def num_squares(bmp):
         print("".join(row))
     # Uncomment to enable verbose output.
     # good_guesser.logger.addHandler(logging.StreamHandler())
-    return good_guesser("num_squares", bmp, count_pixels, concave_pixels)
+    return good_guesser("num-squares", bmp, count_pixels, concave_pixels)
 
 
 def count_pixels(bmp):
